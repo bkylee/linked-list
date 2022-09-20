@@ -18,11 +18,13 @@ const LLNode = (value, node)=>{
 const LinkedList = ()=>{
     let last = null;
     let first = null;
+    let length = 0;
 
     const append = value=>{
         const inp = LLNode(value);
         first === null ? first = inp : inp.nextNode(first);
         first = inp;
+        length ++;
     };
 
     const prepend = value=>{
@@ -32,11 +34,6 @@ const LinkedList = ()=>{
     };
     
     const size = ()=>{
-        let length = 0;
-        const node = first;
-        while(!node.nextNode() === null){
-            
-        }
         return length;
     };
 
@@ -50,15 +47,28 @@ const LinkedList = ()=>{
 
     const at = index=>{
         let current = 0;
-        
+        let node = first;
+        const value = findIndex(node);
+        function findIndex(node){
+            if (current == index){
+                return node;
+            };
+            while (current < index){
+                current ++;
+                findIndex(node.nextNode());
+            };
+        };
+        return value;
+    };
+    
     const pop = ()=>{
         let node = first;
-        while (!node.nextNode() === null){
+        while (!node.nextNode() === last){
             node = node.nextNode();
-            if (node.nextNode === null){
-
-            }
-        }
+            if (node.nextNode() === last){
+                node.nextNode(null);
+            };
+        };
     };
     const contains = value =>{
         for (node in LinkedList()){
@@ -76,8 +86,10 @@ const LinkedList = ()=>{
         };
     };
     const toString = ()=>{
-        for(node in LinkedList()){
+        let node = first; 
+        while (!node.nextNode() == null){
             console.log(`${node} ->`);
+            node = nextNode();
         };
     };
 
@@ -97,5 +109,5 @@ const LL = LinkedList();
 LL.append(n2);
 LL.toString();
 LL.append(n1);
-LL.toString;
+LL.toString();
 LL.contains(3);
