@@ -3,6 +3,7 @@ class node {
         this.data = data;
         this.left = null;
         this.right = null;
+        this.preOrderArray = [];
     };
 };
 
@@ -119,7 +120,7 @@ inorder(root , funct, que = []){
         if (root == null){
         return null}
     if (root.left !== null){
-        this.inorder(funct, root.left)
+        this.inorder(root, funct, que)
     }
     if (root.data){que.push(root);} 
     if (root.right !== null){ 
@@ -129,19 +130,22 @@ inorder(root , funct, que = []){
     return que;
 };
 
-preOrder(root, funct, que = []){
-    if (root == null){
-        return null}
-        if (root.data){que.push(root);} 
-        if (root.left !== null){
-            this.preOrder(root,funct,que)
-        }
-        if (root.right !== null){ 
-            this.preOrder(root,funct,que);
-        }
-        if (funct){que = funct(que)}
-    return que;
-};
+preOrder(root = this.root, funct){
+    if (root == null) return;
+
+    if (root.data) {
+      this.preOrderArray.push(root.data);
+    }
+
+    if (root.left !== null) {
+      this.preOrder(root.left);
+    }
+
+    if (root.right !== null) {
+      this.preOrder(root.right);
+    }
+    if (funct){funct(que)}
+  };
 
 postOrder(root, funct, que = []){
     if (root == null){
@@ -207,8 +211,8 @@ rebalance(){
 const arr = [1,2,3,4,5,6,7,8,9];
 
 const test = new Tree(arr);
-
 console.log(test.isBalanced());
-console.log(test.preOrder());
-console.log(test.inorder());
-console.log(test.postOrder());
+test.preOrder();
+console.log(test.preOrderArray);
+console.log(test.inorder(this.root));
+console.log(test.postOrder(this.root));
