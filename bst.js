@@ -25,31 +25,31 @@ buildTree(arr, start, end){
         return root;
     };
 
-insert(root = this.root, value){
-       if (root = null){
+insert(value, root = this.root){
+       if (root == null){
         root = new node(value);
        }
        else {
             if (value< root.data){
-            root.left = insert(root.left, value);
+            root.left = insert(value, root.left);
         }
             if(value > node.data){
-            node.right= insert(root.right, value);
-        };
+            node.right= insert(value,root.right);
+        }
     }
        return node;
 
 };
 
-del(root = this.root, value){
+del(value, root = this.root){
     if (root === null){
         return null;
     }
     if (value < root.data){
-        root.left = this.del(root.left, value);
+        root.left = this.del(value, root.left);
     }
     if (value > root.data){
-        root.right = this.del(root.right, value);
+        root.right = this.del(value, root.right);
     }
     if (value === root.data){
         if (root.left == null){
@@ -161,7 +161,7 @@ postOrder(root = this.root, funct){
     return this.postOrderArray;
 };
 
-height(node){
+height(node = this.root){
     if (node == null){
         return-1;
     };
@@ -193,14 +193,10 @@ depth(node, root = this.root){
 isBalanced(){
     let left = this.height(this.root.left);
     let right = this.height(this.root.right);
-    if(left > right){
-        if ((left - right)<2)
-        return true;  
-    }
-    if ((right - left)< 2){
-        return true;
-    };
-    return false;
+   
+    if (Math.abs(left - right)>1){
+    return false}
+    else{return true};
 };
 
 rebalance(){
@@ -212,7 +208,14 @@ const arr = [1,2,3,4,5,6,7,8,9];
 
 const test = new Tree(arr);
 console.log(test.isBalanced());
-test.preOrder();
 console.log(test.preOrder());
 console.log(test.inorder());
 console.log(test.postOrder());
+
+test.insert(500);
+test.insert(400);
+test.insert(300);
+test.insert(510);
+test.insert(530);
+
+console.log(test.isBalanced());
