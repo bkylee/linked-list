@@ -120,5 +120,38 @@ return que;
 };
 
 function inorder(funct, root){
-    
-}
+    const que = [];
+    if (root == null){
+        return;
+    }else{
+    root.left !== null && inorder(funct, root.left);
+    que.push[funct(root)];
+    root.right !== null && inorder(funct,root.right);
+    };
+    return que;
+};
+
+function preOrder(funct, root){
+    const que = [];
+    if (root == null){
+        return;
+    }else{
+    que.push[funct(root)];
+    root.left !== null && preOrder(funct, root.left);
+    root.right !== null && preOrder(funct,root.right);
+    };
+    return que;
+};
+
+function postOrder(funct, root){
+    const que = [];
+    if (root == null){
+        return;
+    }else{
+    root.left !== null && postOrder(funct, root.left);
+    root.right !== null && postOrder(funct,root.right);
+    que.push[funct(root)];
+    };
+    return que;
+};
+
