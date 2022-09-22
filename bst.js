@@ -1,4 +1,4 @@
-class Node {
+class node {
     constructor (data){
         this.data = data;
         this.left = null;
@@ -9,25 +9,24 @@ class Node {
 class Tree {
     constructor(arr){
         this.arr = arr;
-        this.root = buildTree();;
+        this.root = this.buildTree(this.arr);
     }
-};
 
-function buildTree(arr, start, end){
+buildTree(arr, start, end){
         if (start>end){
             return null;
         };
         const half = (start + end)/2;
-        const root = new Node(arr[half]);
-        root.left = buildTree(arr, start, half-1);
+        const root = new node(arr[half]);
+        root.left = this.buildTree(arr, start, half-1);
         root.right= buildTree(arr, half+1, end);
             
         return root;
     };
 
-function insert(root, value){
+insert(root, value){
        if (root = null){
-        root = new Node(value);
+        root = new node(value);
        }
        else {
             if (value< root.data){
@@ -41,7 +40,7 @@ function insert(root, value){
 
 };
 
-function del(root, value){
+del(root, value){
     if (root === null){
         return null;
     }
@@ -63,7 +62,7 @@ function del(root, value){
         };
     };
 
-function minVal(root){
+minVal(root){
     let minv = root.data;
     while(root.left !== null){
         minv = root.left.data;
@@ -72,7 +71,7 @@ function minVal(root){
     return minv; 
 };
 
-function find(root, value){
+find(root, value){
     if (root === null){
         return null;
     }
@@ -87,7 +86,7 @@ function find(root, value){
         };
 };
 
-function levelOrder(funct, root){
+levelOrder(funct, root){
     const que = [];
     if (root == null){
         return;
@@ -119,7 +118,7 @@ function levelOrder(funct, root){
 return que;
 };
 
-function inorder(funct, root){
+inorder(root, funct){
     const que = [];
     if (root == null){
         return;
@@ -131,7 +130,7 @@ function inorder(funct, root){
     return que;
 };
 
-function preOrder(funct, root){
+preOrder(root, funct){
     const que = [];
     if (root == null){
         return;
@@ -143,7 +142,7 @@ function preOrder(funct, root){
     return que;
 };
 
-function postOrder(funct, root){
+postOrder(root, funct){
     const que = [];
     if (root == null){
         return;
@@ -155,3 +154,63 @@ function postOrder(funct, root){
     return que;
 };
 
+maxHeight(node){
+    if (node == null){
+        return-1;
+    };
+    let left = height(node.left);
+    let right = height(node.right);
+    if (left > right){
+        return left + 1;
+    }else{
+        return right + 1
+    };
+};
+
+minHeight(node){
+    if (node == null){
+        return-1;
+    };
+    let left = height(node.left);
+    let right = height(node.right);
+    if (left < right){
+        return left + 1;
+    }else{
+        return right + 1
+    };
+}
+
+depth(node, root){
+    const val = node.data;
+    let counter = 0;
+    if (root.value === val){
+        return counter; 
+    };
+    if (root.value > val ){
+        counter ++;
+        depth(node.left, root);
+    }
+    if (root.value < val){
+        counter ++;
+        depth(node.right, root);
+    };
+};
+isBalanced(){
+    let min = minHeight(root);
+    let max = maxHeight(root);
+    (max - min) > 1 ? true : false; 
+};
+
+rebalance(){
+    const arr = inorder(root);
+    return buildTree(arr);
+};
+}
+const arr = [1,5,6,7,8,9,23,56];
+
+const test = new Tree(arr);
+
+test.isBalanced();
+console.log(test.preOrder());
+console.log(test.inorder());
+console.log(test.postOrder());
