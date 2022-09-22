@@ -2,29 +2,27 @@ class node {
     constructor (data){
         this.data = data;
         this.left = null;
-        this.right = null
+        this.right = null;
     };
 };
 
 class Tree {
     constructor(arr){
         this.arr = arr;
-        this.root = this.buildTree(this.arr);
+        this.root = this.buildTree(this.arr, 0, arr.length);
     }
 
 buildTree(arr, start, end){
-        if (start>end){
-            return null;
-        };
-        const half = (start + end)/2;
+        if (start>end) {return null};
+        const half = Math.floor((start + end)/2);
         const root = new node(arr[half]);
         root.left = this.buildTree(arr, start, half-1);
-        root.right= buildTree(arr, half+1, end);
+        root.right= this.buildTree(arr, half+1, end);
             
         return root;
     };
 
-insert(root, value){
+insert(root = this.root, value){
        if (root = null){
         root = new node(value);
        }
@@ -40,15 +38,15 @@ insert(root, value){
 
 };
 
-del(root, value){
+del(root = this.root, value){
     if (root === null){
         return null;
     }
     if (value < root.data){
-        root.left = del(root.left, value);
+        root.left = this.del(root.left, value);
     }
     if (value > root.data){
-        root.right = del(root.right, value);
+        root.right = this.del(root.right, value);
     }
     if (value === root.data){
         if (root.left == null){
@@ -57,12 +55,12 @@ del(root, value){
         else if (root.right = null){
             return root.left;
         }
-            root.data = minVal(root.left);
-            root.right = del(root.right, root.data);
+            root.data = this.minVal(root.left);
+            root.right = this.del(root.right, root.data);
         };
     };
 
-minVal(root){
+minVal(root = this.root){
     let minv = root.data;
     while(root.left !== null){
         minv = root.left.data;
@@ -71,7 +69,7 @@ minVal(root){
     return minv; 
 };
 
-find(root, value){
+find(root = this.root, value){
     if (root === null){
         return null;
     }
@@ -86,101 +84,93 @@ find(root, value){
         };
 };
 
-levelOrder(funct, root){
-    const que = [];
+levelOrder(funct, root, que = []){
     if (root == null){
         return;
     }
     if (que.length == 0){
     funct(root);
     que.push(root);
-    levelOrder(funct, root);
+    this.levelOrder(funct, root);
     }else{
         if (root.left != null && root.right !=null){
         funct(root.left);
         funct(root.right);
         que.push(root.left);
         que.push(root.right);
-        levelOrder(funct, root.left);
-        levelOrder(funct, root.right);
+        this.levelOrder(funct, root.left);
+        this.levelOrder(funct, root.right);
     }
     if (root.left == null){
         funct(root.right);
         que.push(root.right);
-        levelOrder(root.right);
+        this.levelOrder(root.right);
     }
     if (root.right == null){
         funct(root.left);
         que.push(root.left);
-        levelOrder(root.left);
+        this.levelOrder(root.left);
     }
 };
 return que;
 };
 
-inorder(root, funct){
-    const que = [];
-    if (root == null){
-        return;
-    }else{
-    root.left !== null && inorder(funct, root.left);
-    que.push[funct(root)];
-    root.right !== null && inorder(funct,root.right);
-    };
+inorder(root , funct, que = []){
+        if (root == null){
+        return null}
+    if (root.left !== null){
+        this.inorder(funct, root.left)
+    }
+    if (root.data){que.push(root);} 
+    if (root.right !== null){ 
+        this.inorder(root,funct,que);
+    }
+    if (funct){que = funct(que)};
     return que;
 };
 
-preOrder(root, funct){
-    const que = [];
+preOrder(root, funct, que = []){
     if (root == null){
-        return;
-    }else{
-    que.push[funct(root)];
-    root.left !== null && preOrder(funct, root.left);
-    root.right !== null && preOrder(funct,root.right);
-    };
+        return null}
+        if (root.data){que.push(root);} 
+        if (root.left !== null){
+            this.preOrder(root,funct,que)
+        }
+        if (root.right !== null){ 
+            this.preOrder(root,funct,que);
+        }
+        if (funct){que = funct(que)}
     return que;
 };
 
-postOrder(root, funct){
-    const que = [];
+postOrder(root, funct, que = []){
     if (root == null){
-        return;
-    }else{
-    root.left !== null && postOrder(funct, root.left);
-    root.right !== null && postOrder(funct,root.right);
-    que.push[funct(root)];
-    };
+        return null}
+    if (root.data){que.push(root);} 
+    if (root.left !== null){
+        this.postOrder(root,funct,que)
+    }
+    if (root.right !== null){ 
+        this.postOrder(root,funct,que);
+        }
+    if (funct){que = funct(que)}
     return que;
 };
 
-maxHeight(node){
+height(node){
     if (node == null){
         return-1;
     };
-    let left = height(node.left);
-    let right = height(node.right);
-    if (left > right){
-        return left + 1;
-    }else{
-        return right + 1
-    };
-};
-
-minHeight(node){
-    if (node == null){
-        return-1;
-    };
-    let left = height(node.left);
-    let right = height(node.right);
+    let left = this.height(node.left);
+    let right = this.height(node.right);
     if (left < right){
         return left + 1;
     }else{
         return right + 1
     };
-}
+};
 
-depth(node, root){
+depth(node, root = this.root){
     const val = node.data;
     let counter = 0;
     if (root.value === val){
@@ -188,29 +178,37 @@ depth(node, root){
     };
     if (root.value > val ){
         counter ++;
-        depth(node.left, root);
-    }
+        this.depth(node.left, root);
+    };
     if (root.value < val){
         counter ++;
-        depth(node.right, root);
+        this.depth(node.right, root);
     };
 };
+
 isBalanced(){
-    let min = minHeight(root);
-    let max = maxHeight(root);
-    (max - min) > 1 ? true : false; 
+    let left = this.height(this.root.left);
+    let right = this.height(this.root.right);
+    if(left > right){
+        if ((left - right)<2)
+        return true;  
+    }
+    if ((right - left)< 2){
+        return true;
+    };
+    return false;
 };
 
 rebalance(){
-    const arr = inorder(root);
+    const arr = this.inorder(root);
     return buildTree(arr);
 };
 }
-const arr = [1,5,6,7,8,9,23,56];
+const arr = [1,2,3,4,5,6,7,8,9];
 
 const test = new Tree(arr);
 
-test.isBalanced();
+console.log(test.isBalanced());
 console.log(test.preOrder());
 console.log(test.inorder());
 console.log(test.postOrder());
