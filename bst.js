@@ -3,14 +3,16 @@ class node {
         this.data = data;
         this.left = null;
         this.right = null;
-        this.preOrderArray = [];
     };
 };
 
 class Tree {
     constructor(arr){
         this.arr = arr;
-        this.root = this.buildTree(this.arr, 0, arr.length);
+        this.root = this.buildTree(this.arr, 0, arr.length -1);
+        this.preOrderArray = [];
+        this.inorderArray = [];
+        this.postOrderArray = [];
     }
 
 buildTree(arr, start, end){
@@ -116,49 +118,47 @@ levelOrder(funct, root, que = []){
 return que;
 };
 
-inorder(root , funct, que = []){
-        if (root == null){
+inorder(root = this.root, funct){
+    if (root == null){
         return null}
-    if (root.left !== null){
-        this.inorder(root, funct, que)
-    }
+    const que = [];
     if (root.data){que.push(root);} 
-    if (root.right !== null){ 
-        this.inorder(root,funct,que);
+    if (root.left !== null){
+        this.inorder(root.left,funct)
     }
-    if (funct){que = funct(que)};
+    if (root.right !== null){ 
+        this.inorder(root.right,funct);
+        }
+        if (funct){que= funct(que)}
     return que;
 };
 
 preOrder(root = this.root, funct){
-    if (root == null) return;
-
-    if (root.data) {
-      this.preOrderArray.push(root.data);
-    }
-
-    if (root.left !== null) {
-      this.preOrder(root.left);
-    }
-
-    if (root.right !== null) {
-      this.preOrder(root.right);
-    }
-    if (funct){funct(que)}
-  };
-
-postOrder(root, funct, que = []){
     if (root == null){
         return null}
+        const que = [];
     if (root.data){que.push(root);} 
     if (root.left !== null){
-        this.postOrder(root,funct,que)
+        this.preOrder(root.left,funct)
     }
     if (root.right !== null){ 
-        this.postOrder(root,funct,que);
+        this.preOrder(root.right,funct);
         }
-    if (funct){que = funct(que)}
+    if (funct){que= funct(que)}
     return que;
+};
+postOrder(root = this.root, funct){
+    if (root == null){
+        return null}
+    if (root.data){this.postOrderArray.push(root);} 
+    if (root.left !== null){
+        this.postOrder(root.left,funct)
+    }
+    if (root.right !== null){ 
+        this.postOrder(root.right,funct);
+        }
+        if (funct){que= funct(que)}
+    return this.postOrderArray;
 };
 
 height(node){
@@ -213,6 +213,6 @@ const arr = [1,2,3,4,5,6,7,8,9];
 const test = new Tree(arr);
 console.log(test.isBalanced());
 test.preOrder();
-console.log(test.preOrderArray);
-console.log(test.inorder(this.root));
-console.log(test.postOrder(this.root));
+console.log(test.preOrder());
+console.log(test.inorder());
+console.log(test.postOrder());
